@@ -32,6 +32,7 @@ public sealed class SnakeView : View
     private int _score;
     private int _highScore;
     private bool _isGameOver;
+    private bool _isPaused;
     private float _touchStartX;
     private float _touchStartY;
 
@@ -52,6 +53,22 @@ public sealed class SnakeView : View
     public void StopLoop()
     {
         _handler.RemoveCallbacks(Tick);
+    }
+
+    public bool TogglePause()
+    {
+        if (_isGameOver) return false;
+        _isPaused = !_isPaused;
+        if (_isPaused)
+        {
+            StopLoop();
+        }
+        else
+        {
+            StartLoop();
+        }
+        Invalidate();
+        return _isPaused;
     }
 
     public void ChangeDirection(Direction next)
@@ -91,6 +108,7 @@ public sealed class SnakeView : View
         _pendingDirection = Direction.Right;
         _score = 0;
         _isGameOver = false;
+        _isPaused = false;
         SpawnFood();
         Invalidate();
     }
@@ -103,7 +121,7 @@ public sealed class SnakeView : View
 
     private void Tick()
     {
-        if (_isGameOver) return;
+        if (_isGameOver || _isPaused) return;
 
         _direction = _pendingDirection;
         var head = _snake.First!.Value;
@@ -254,6 +272,12 @@ public sealed class SnakeView : View
             _textPaint.TextAlign = Paint.Align.Center;
             canvas.DrawText("Game Over", Width / 2f, Height / 2f - 30f, _textPaint);
             canvas.DrawText($"Skor: {_score} - Ketuk untuk main lagi", Width / 2f, Height / 2f + 35f, _textPaint);
+        }
+        else if (_isPaused)
+        {
+            canvas.DrawRect(0, 0, Width, Height, _overlayPaint);
+            _textPaint.TextAlign = Paint.Align.Center;
+            canvas.DrawText("Jeda", Width / 2f, Height / 2f, _textPaint);
         }
     }
 
