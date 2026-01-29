@@ -56,6 +56,13 @@ public class MainActivity : Activity
         topRow.SetGravity(Android.Views.GravityFlags.CenterHorizontal);
         topRow.AddView(CreateDirButton("Atas", Direction.Up));
 
+        var pauseBtn = new Button(this) { Text = "Jeda" };
+        pauseBtn.Click += (_, _) =>
+        {
+            bool paused = _snakeView?.TogglePause() ?? false;
+            pauseBtn.Text = paused ? "Lanjut" : "Jeda";
+        };
+        topRow.AddView(pauseBtn);
 
         var bottomRow = new LinearLayout(this) { Orientation = Orientation.Horizontal };
         bottomRow.SetGravity(Android.Views.GravityFlags.CenterHorizontal);
