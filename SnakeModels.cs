@@ -1,4 +1,3 @@
-// Grid and direction primitives for SnakeAndroid
 namespace SnakeAndroid;
 
 public enum Direction
