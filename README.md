@@ -12,3 +12,4 @@ Memerlukan .NET 8 SDK dengan workload Android (`dotnet workload install android`
 ```bash
 dotnet build -t:Run
 ```
+- Fitur Jeda / Lanjut permainan
